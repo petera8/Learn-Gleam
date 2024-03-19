@@ -1,3 +1,4 @@
+```gleam
 import gleam/io
 import gleam/option.{type Option, None, Some}
 
@@ -21,3 +22,4 @@ pub fn insertinbegin(data: String, curr_head: Option(Node)) -> Option(Node) {
       }
     }
 }
+```
