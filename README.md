@@ -18,7 +18,8 @@ pub fn insert_in_begin(data: String, head: Head) -> NodesReturned {
     case head {
       None -> {
         let new_node = Node(data, None, None)
-        #(Some(new_node), new_node)
+        let new_head = Some(new_node)
+        #(new_head, new_node)
       }
       Some(prev_head) -> {
         let updated_head: Head = Some(Node(prev_head.data, Some(Node(data, None, Some(prev_head))), prev_head.next))
