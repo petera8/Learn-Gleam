@@ -10,7 +10,7 @@ pub type NodesReturned = #(Head, Node)
 
 pub fn main() {
   let #(_head, node) = insert_in_begin("Node 1", None)
-  let result = insertinbegin("Node 2", Some(node))
+  let result = insert_in_begin("Node 2", Some(node))
   io.debug(result)
 }
 
