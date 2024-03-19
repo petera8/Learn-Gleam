@@ -14,13 +14,13 @@ pub fn main() {
   io.debug(result)
 }
 
-pub fn insert_in_begin(data: String, curr_head: Option(Node)) -> NodesReturned {
-    case curr_head {
+pub fn insert_in_begin(data: String, head: Head) -> NodesReturned {
+    case head {
       None -> #(None, Node(data, None, None))
-      Some(hd) -> {
-        let updated_head: Option(Node) = Some(Node(hd.data, Some(Node(data, None, Some(hd))), hd.next))
-        let node = Node(data, None, updated_head)
-        #(updated_head, node)
+      Some(prev_head) -> {
+        let new_head: Option(Node) = Some(Node(prev_head.data, Some(Node(data, None, Some(prev_head))), prev_head.next))
+        let node = Node(data, None, new_head)
+        #(new_head, node)
       }
     }
 }
