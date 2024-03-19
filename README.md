@@ -9,7 +9,7 @@ pub type Head = Option(Node)
 pub type NodesReturned = #(Head, Node)
 
 pub fn main() {
-  let #(_head, node) = insertinbegin("Node 1", None)
+  let #(_head, node) = insert_in_begin("Node 1", None)
   let result = insertinbegin("Node 2", Some(node))
   io.debug(result)
 }
