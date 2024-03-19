@@ -14,7 +14,7 @@ pub fn main() {
   io.debug(result)
 }
 
-pub fn insertinbegin(data: String, curr_head: Option(Node)) -> NodesReturned {
+pub fn insert_in_begin(data: String, curr_head: Option(Node)) -> NodesReturned {
     case curr_head {
       None -> #(None, Node(data, None, None))
       Some(hd) -> {
