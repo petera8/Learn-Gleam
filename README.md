@@ -16,11 +16,14 @@ pub fn main() {
 
 pub fn insert_in_begin(data: String, head: Head) -> NodesReturned {
     case head {
-      None -> #(None, Node(data, None, None))
+      None -> {
+        let new_node = Node(data, None, None)
+        #(Some(new_node), new_node)
+      }
       Some(prev_head) -> {
-        let new_head: Head = Some(Node(prev_head.data, Some(Node(data, None, Some(prev_head))), prev_head.next))
-        let new_node = Node(data, None, new_head)
-        #(new_head, new_node)
+        let updated_head: Head = Some(Node(prev_head.data, Some(Node(data, None, Some(prev_head))), prev_head.next))
+        let new_node = Node(data, None, updated_head)
+        #(updated_head, new_node)
       }
     }
 }
