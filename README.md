@@ -3,51 +3,58 @@ import gleam/io
 import gleam/option.{type Option, None, Some}
 
 pub type Node {
-  Node(data: String, prev: Option(Node), next: Option(Node))
+  Node(value: String, prev: Option(Node), next: Option(Node))
 }
 
-pub fn main() {
-  let node = insert_at_begin("Node 1", None)
-  // io.debug(node)
-  let result1 = insert_at_end("Node 2", Some(node))
-  io.debug(result1)
-  let result2 = insert_at_end("Node 3", Some(result1))
-  io.debug(result2)
+pub fn create_node(node_name: String) -> Node {
+  Node(node_name, None, None)
 }
 
-pub type Head = Option(Node)
-pub fn insert_at_begin(data: String, head: Head) -> Node {
-    case head {
-      None ->  Node(data, None, None)
-      Some(prev_head) -> {
-        let new_next: Head = Some(Node(prev_head.data, Some(Node(data, None, Some(prev_head))), prev_head.next))
-        let head: Node = Node(data, None, new_next)
-        head
-      }
-    }
-}
-pub fn insert_at_end(data: String, head: Head) -> Node {
-  case head {
-    None -> Node(data, None, None)
-    Some(prev_head) -> {
-      let last_node = get_last_node(Some(prev_head), None)
-      Node(last_node.data, last_node.prev, Some(Node(data, Some(last_node), None)))
-    }
+pub fn append(node new_node: Node, tail old_tail: Node) -> Node {
+  case old_tail.next{
+    None -> Node(old_tail.value, old_tail.prev, Some(new_node))
+    Some(next) -> Node(old_tail.value, old_tail.prev, Some(append(new_node, next)))
   }
 }
 
-fn get_last_node(opt_node: Option(Node), prev_node: Option(Node)) -> Node {
-   case opt_node {
-     None -> case prev_node {
-       None -> panic("")
-       Some(node) -> node
-     }
-     Some(node) -> {
-       case node.next{
-         None -> node
-         Some(next_node) -> get_last_node(next_node.next, Some(next_node))
-       }
-     }
-   }
+pub fn prepend(node new_node: Node, head old_head: Node){
+  case old_head.prev {
+    None -> Node(old_head.value, Some(new_node), old_head.next)
+    Some(prev) -> Node(old_head.value, Some(prepend(new_node, prev)), old_head.next)
+  }
 }
+
+pub fn main() {
+  let node = append(node: create_node("Node B"), tail: create_node("Node A"))
+  let node2 = prepend(node: create_node("Node C"), head: node)
+  let node3 = prepend(node: create_node("Node D"), head: node2)
+  let node4 = append(node: create_node("Node E"), tail: node3)
+  io.debug(node4)
+}
+
+
+// OUTPUT:
+Node(
+  value: "Node A",
+  prev: Some(
+          Node(
+            value: "Node C",
+            prev: Some(
+                    Node(
+                      value: "Node D",
+                      prev: None,
+                      next: None)
+            ),
+            next: None)
+  ),
+  next: Some(
+          Node(
+              value: "Node B",
+              prev: None,
+              next: Some(
+                      Node(value: "Node E", prev: None, next: None)
+              )
+          )
+  )
+)
 ```
